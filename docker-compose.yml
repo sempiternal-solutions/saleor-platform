@@ -68,13 +68,17 @@ services:
 
   redis:
     image: library/redis:5.0-alpine
-    ports:
-      - 6379:6379
+    # ports:
+    #   - 6379:6379
+    expose: 
+      - "6379"
     restart: unless-stopped
+    command: redis-server /usr/local/etc/redis/redis.conf
     networks:
       - saleor-backend-tier
     volumes:
       - saleor-redis:/data
+      - ./redis-config/redis.conf:/usr/local/etc/redis/redis.conf
 
   worker:
     build:
